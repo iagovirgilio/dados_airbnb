@@ -131,3 +131,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "data_loader.CustomUser"
+
+OPEN_WEATHER_KEY = os.environ.get("OPEN_WEATHER_KEY")
