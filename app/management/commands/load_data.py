@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import logging
 
@@ -8,24 +9,40 @@ class LoadData:
             self.load_data(data_source)
 
     def load_data(self, data_source):
-        """Carrega os dados a partir de um arquivo CSV ou de um DataFrame.
+        """Carrega os dados a partir de um arquivo CSV ou Excel, ou de um DataFrame Pandas.
 
         Args:
-            data_source: Caminho para o arquivo CSV ou um DataFrame Pandas.
+            data_source: Caminho para o arquivo CSV ou Excel, ou um DataFrame Pandas.
+
+        Raises:
+            FileNotFoundError: Se o arquivo não for encontrado.
+            ValueError: Se a extensão do arquivo não for suportada ou houver erro ao ler o arquivo.
+            TypeError: Se data_source não for uma string ou DataFrame.
         """
         if isinstance(data_source, pd.DataFrame):
             self.df = data_source
             logging.info("Dados carregados a partir de um DataFrame.")
         elif isinstance(data_source, str):
+            file_extension = os.path.splitext(data_source)[1].lower()
             try:
-                self.df = pd.read_csv(data_source)
-                logging.info(f"Dados carregados a partir do arquivo: {data_source}")
+                if file_extension == '.csv':
+                    self.df = pd.read_csv(data_source)
+                    logging.info(f"Dados carregados a partir do arquivo CSV: {data_source}")
+                elif file_extension in ['.xls', '.xlsx']:
+                    self.df = pd.read_excel(data_source)
+                    logging.info(f"Dados carregados a partir do arquivo Excel: {data_source}")
+                else:
+                    logging.error(f"Extensão de arquivo não suportada: {file_extension}")
+                    raise ValueError(f"Extensão de arquivo não suportada: {file_extension}")
             except FileNotFoundError:
                 logging.error(f"Arquivo não encontrado: {data_source}")
                 raise FileNotFoundError(f"Arquivo não encontrado: {data_source}")
-            except pd.errors.ParserError:
-                logging.error(f"Erro ao analisar o arquivo: {data_source}")
-                raise ValueError(f"Erro ao analisar o arquivo: {data_source}")
+            except (pd.errors.ParserError, ValueError) as e:
+                logging.error(f"Erro ao analisar o arquivo {data_source}: {e}")
+                raise ValueError(f"Erro ao analisar o arquivo {data_source}: {e}")
+            except Exception as e:
+                logging.error(f"Ocorreu um erro ao ler o arquivo {data_source}: {e}")
+                raise e
         else:
             logging.error("data_source deve ser um caminho de arquivo ou um DataFrame Pandas.")
             raise TypeError("data_source deve ser um caminho de arquivo ou um DataFrame Pandas.")

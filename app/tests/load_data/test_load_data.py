@@ -32,3 +32,20 @@ def test_load_data_file_not_found():
     loader = LoadData()
     with pytest.raises(FileNotFoundError):
         loader.load_data('arquivo_inexistente.csv')
+
+
+def test_load_data_from_excel(sample_excel_file):
+    # Ação
+    loader = LoadData()
+    loader.load_data(str(sample_excel_file))
+
+    # Verificação
+    assert loader.df is not None
+    assert len(loader.df) == 2
+
+
+def test_load_data_unsupported_extension():
+    loader = LoadData()
+    with pytest.raises(ValueError) as excinfo:
+        loader.load_data('data.unsupported')
+    assert "Extensão de arquivo não suportada" in str(excinfo.value)
