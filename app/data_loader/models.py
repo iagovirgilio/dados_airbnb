@@ -23,9 +23,10 @@ class Stay(models.Model):
     availability_365 = models.IntegerField()
 
     # Campo para os dados enriquecidos
-    weather_main = models.CharField(max_length=255, null=True, blank=True)
-    weather_description = models.CharField(max_length=255, null=True, blank=True)
-    weather_icon = models.CharField(max_length=255, null=True, blank=True)
+    weather = models.CharField(max_length=255, null=True, blank=True)
+    feels_like = models.IntegerField(null=True, blank=True)
+    humidity = models.IntegerField(null=True, blank=True)
+    temperature = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} by {self.host_name}'
