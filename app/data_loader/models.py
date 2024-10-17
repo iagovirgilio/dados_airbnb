@@ -6,7 +6,7 @@ class CustomUser(AbstractUser):
     pass
 
 
-class stay(models.Model):
+class Stay(models.Model):
     # Campos dos dados originais
     listing_id = models.IntegerField()
     name = models.CharField(max_length=255)
