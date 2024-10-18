@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'data_loader.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'airbnb_project.urls'
