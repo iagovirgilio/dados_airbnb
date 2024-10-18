@@ -1,25 +1,25 @@
-from gettext import ngettext
-from django.contrib import messages
-from django.contrib import admin
-from django.urls import path, reverse
-from django.shortcuts import get_object_or_404, redirect
-from django.template.response import TemplateResponse
-from django.utils.html import format_html
-from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 import pandas as pd
 
+from django.contrib import messages
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import path, reverse
+from django.utils.html import format_html
+
 from data_loader.forms import FileUploadForm
+from .models import FileUpload
+from .models import CustomUser, Stay
+
 from management.commands.data_enricher import DataEnricher
 from management.commands.data_server import DataSaver
 from management.commands.load_data import LoadData
-
-from .models import FileUpload
-from .models import CustomUser, Stay
 
 
 @admin.register(CustomUser)
 class UserAdmin(DefaultUserAdmin):
     pass
+
 
 @admin.register(Stay)
 class StayAdmin(admin.ModelAdmin):
@@ -28,6 +28,7 @@ class StayAdmin(admin.ModelAdmin):
     search_fields = ('name', 'host_name', 'neighbourhood')
     ordering = ('-price',)
 
+    @admin.display(description='Ocupação Mensal')
     def monthly_occupancy(self, obj):
         occupied_days = 365 - obj.availability_365
         occupancy_rate = (occupied_days / 365) * 100
@@ -73,16 +74,9 @@ class FileUploadAdmin(admin.ModelAdmin):
 
     # View personalizada para processar o arquivo
     def process_file(self, request, fileupload_id, *args, **kwargs):
-        print("-" * 100)
-        print(1)
-        print("-" * 100)
         file_upload = get_object_or_404(FileUpload, id=fileupload_id)
 
         try:
-            print("-" * 100)
-            print(2)
-            print("-" * 100)
-
             # Ler o arquivo no DataFrame
             if file_upload.file_type == 'csv':
                 df = pd.read_csv(file_upload.file.path)
@@ -107,4 +101,4 @@ class FileUploadAdmin(admin.ModelAdmin):
             self.message_user(request, f"Erro ao processar o arquivo '{file_upload.file.name}': {str(e)}", level=messages.ERROR)
 
         # Redirecionar para a listagem de arquivos
-        return redirect(reverse('admin:data_loader_fileupload_changelist'))
+        return redirect(reverse('admin:data_loader_stay_changelist'))
