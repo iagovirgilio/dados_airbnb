@@ -2,6 +2,8 @@
 
 Bem-vindo ao **Airbnb Django Project**! Este projeto é uma aplicação web desenvolvida em Django que carrega uma lista de dados do Airbnb, limpa e enriquece os dados a partir da latitude e longitude com dados do clima da API Weather, permitindo a vizualização de estadias com informações detalhadas de preço, tipo, clima... A aplicação está containerizada utilizando Docker para facilitar o desenvolvimento, implantação e escalabilidade.
 
+Os dados foram obtidos em https://insideairbnb.com/get-the-data/ que é uma base de dados aberta da Airbnb.
+
 ## 📋 Índice
 
 - [Características](#características)
@@ -132,6 +134,9 @@ Para acessar a interface administrativa do Django:
     ```
 
 2. Faça login com as credenciais do superusuário que você criou anteriormente.
+
+**Nota:** Na raíz do projeto existe um arquivo chamando `listing.csv` com alguns dados para teste, já que a API da `Weather` tem limitação de requisições no plano gratuito.
+
 3. Clique em `Arquivos` no menu
 
     3.2 Adicione um arquivo cliando em `Adicionar arquivo`.
