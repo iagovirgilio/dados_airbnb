@@ -81,7 +81,7 @@ OPEN_WEATHER_KEY=your-secret-key
 ```
 **Nota**: Certifique-se de substituir your-secret-key e outras variáveis sensíveis por valores seguros.
 
-**Nota**: Atualize as variáveis de banco e Key do Weather no arquivo `docker-compose.yml`.
+**Nota**: Atualize as variáveis de banco, caso tenha alterado no .evn, no arquivo `docker-compose.yml`.
 
 ### 3. Construir as Imagens Docker
 Construa as imagens Docker necessárias para a aplicação e o banco de dados.
