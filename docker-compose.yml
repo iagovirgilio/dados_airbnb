@@ -9,7 +9,6 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=airbnb_project.settings
       - PYTHONPATH=/usr/src/app
-      - OPEN_WEATHER_KEY=your-secret-key  # Certifique-se de definir sua chave real
     env_file:
       - ./app/.env  # Se você estiver usando um arquivo .env para outras variáveis
   db:
