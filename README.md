@@ -1,6 +1,6 @@
 # Airbnb Django Project
 
-Bem-vindo ao **Airbnb Django Project**! Este projeto é uma aplicação web desenvolvida em Django que replica funcionalidades similares ao Airbnb, permitindo o gerenciamento de propriedades (Stays), uploads de arquivos, processamento de dados e muito mais. A aplicação está containerizada utilizando Docker para facilitar o desenvolvimento, implantação e escalabilidade.
+Bem-vindo ao **Airbnb Django Project**! Este projeto é uma aplicação web desenvolvida em Django que carrega uma lista de dados do Airbnb, limpa e enriquece os dados a partir da latitude e longitude com dados do clima da API Weather, permitindo a vizualização de estadias com informações detalhadas de preço, tipo, clima... A aplicação está containerizada utilizando Docker para facilitar o desenvolvimento, implantação e escalabilidade.
 
 ## 📋 Índice
 
@@ -18,13 +18,10 @@ Bem-vindo ao **Airbnb Django Project**! Este projeto é uma aplicação web dese
   - [Executando o Projeto](#executando-o-projeto)
   - [Acessando o Django Admin](#acessando-o-django-admin)
 - [📜 Scripts Úteis](#scripts-úteis)
-- [🐛 Resolução de Problemas](#resolução-de-problemas)
-  - [1. Erro: `Method Not Allowed (GET): /admin/logout/`](#1-erro-method-not-allowed-get-adminlogout)
-  - [2. Erro: `AttributeError: 'dict' object has no attribute 'SUCCESS'`](#2-erro-attributeerror-dict-object-has-no-attribute-success)
-  - [3. Avisos do Pandas: `SettingWithCopyWarning`](#3-avisos-do-pandas-settingwithcopywarning)
-  - [4. Erro: `CommandError: Can't find msguniq`](#4-erro-commanderror-cant-find-msguniq)
-- [📝 Contribuição](#contribuição)
-- [📄 Licença](#licença)
+- [🧪 Testes Unitários](#testes-unitários)
+  - [1. Executar os Testes](#1-executar-os-testes)
+  - [2. Escrever Testes](#2-escrever-testes)
+- [💡 Melhorias](#melhorias)
 
 ## 🛠 Características
 
@@ -48,6 +45,9 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas na s
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/downloads)
+- [OpwnWeather](https://openweathermap.org/current)
+
+**Nota:** A Weather foi a API usada para enriquecer os dados. Crie uma conta e obtenha sua key.
 
 ## 📦 Instalação
 
@@ -128,10 +128,17 @@ Para acessar a interface administrativa do Django:
 
 1. Abra o navegador e vá para:
     ``` bash
-    http://localhost:8009/admin/
+    http://localhost:8009/
     ```
 
 2. Faça login com as credenciais do superusuário que você criou anteriormente.
+3. Clique em `Arquivos` no menu
+
+    3.2 Adicione um arquivo cliando em `Adicionar arquivo`.
+
+    3.3 Selecione o arquivo e o tipo e clique em `Salvar`. Você será redirecionado para a tela de listagem de arquivos.
+
+4. Na tela de listagem clique em `Processar` para tratar e enriquecer os dados. Após concluir o processo você será direcionado para a tela com os dados enriquecidos.
 
 ## 📜 Scripts Úteis
 Aqui estão alguns comandos úteis para gerenciar o projeto:
@@ -179,6 +186,43 @@ Aqui estão alguns comandos úteis para gerenciar o projeto:
     docker-compose exec app python manage.py shell
     ```
 
-## 🐛 Executando testes unitário
+## 🧪 Testes Unitários
 
-### 
+Testes unitários são fundamentais para garantir que sua aplicação funciona conforme o esperado. Este projeto utiliza os testes integrados do Django para verificar funcionalidades essenciais.
+
+### 1. Executar os Testes
+
+Para rodar os testes unitários, utilize o seguinte comando:
+
+```
+docker-compose exec app python manage.py test
+```
+Este comando irá descobrir e executar todos os testes localizados nas pastas de cada aplicativo dentro do seu projeto Django.
+
+### 2. Escrever Testes
+
+Os testes estão localizados na pasta test/<nome_app>/. Para adicionar novos testes, siga as etapas abaixo:
+
+- **Criar Arquivo de Testes:** Dentro da pasta `tests/`, crie uma pasta com o nome do aplicativo desejado caso
+não exista e adicione os arquivos de testes dentro dele com prefixo `test_<nome_do_teste>.py`.
+
+
+## 💡 Melhorias
+
+### 1. **Implementação dos Testes unitários** 
+Atualmente os testes não combrem todas as funcionalidades da aplicação.
+
+### 2. **Automatização de Processos com Tarefas Assíncronas**
+Utilizar ferramentas como Celery para automatizar tarefas demoradas, como processamento de grandes uploads de arquivos ou envio de e-mails, melhorando a performance e a responsividade da aplicação.
+
+### 3. **Melhorias na Interface do Usuário (UI) e Experiência do Usuário (UX)**
+Revisar e aprimorar o design da interface para torná-la mais intuitiva e atraente, melhorando a experiência geral do usuário.
+
+### 4. **Internacionalização e Localização**
+Implementar o suporte a múltiplos idiomas e adaptar a aplicação para diferentes regiões, melhorando a acessibilidade para uma audiência global.
+
+### 5. **Implementação de Testes de Integração e End-to-End**
+Além dos testes unitários, implementar testes de integração e end-to-end para garantir que diferentes partes do sistema funcionem bem juntas.
+
+### 6. **Deploy Automatizado com CI/CD**
+Configurar pipelines de integração e entrega contínuas (CI/CD) para automatizar o processo de deploy, testes e integração, garantindo lançamentos mais rápidos e confiáveis.
