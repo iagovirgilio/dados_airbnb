@@ -1,9 +1,20 @@
 import os
+import sys
+# Configurar o caminho do projeto
+sys.path.append('/usr/src/app')
+# Definir a variável de ambiente para as configurações do Django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'airbnb_project.settings')
+# Inicializar o Django
+import django
+django.setup()
+
 import asyncio
 import aiohttp
 import pandas as pd
 import logging
 from load_data import LoadData
+from data_server import DataSaver  # Certifique-se de que o caminho está correto
+
 
 class DataEnricher:
     def __init__(self, df):
@@ -71,9 +82,22 @@ class DataEnricher:
 
 
 if __name__ == '__main__':
+    # Carregar os dados
     dados = LoadData('management/commands/listings.csv')
     dados_t = dados.run()
+
+    # Enriquecer os dados
     enricher = DataEnricher(dados_t)
-    print("-" * 100)
+    enricher.enrich_data()
+
+    print("=" * 100)
     print(enricher.df)
+    print("=" * 100)
+
+    # Salvar os dados no banco de dados
+    saver = DataSaver(enricher.df)
+    saver.save_to_database()
+
+    print("-" * 100)
+    print(enricher.df.head())  # Exibir as primeiras linhas do DataFrame enriquecido
     print("-" * 100)

@@ -28,5 +28,9 @@ class Stay(models.Model):
     humidity = models.IntegerField(null=True, blank=True)
     temperature = models.IntegerField(null=True, blank=True)
 
+    class Meta:
+        verbose_name = "Estadia"
+        verbose_name_plural = "Estadias"
+
     def __str__(self):
         return f'{self.name} by {self.host_name}'
