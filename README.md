@@ -226,3 +226,6 @@ Além dos testes unitários, implementar testes de integração e end-to-end par
 
 ### 6. **Deploy Automatizado com CI/CD**
 Configurar pipelines de integração e entrega contínuas (CI/CD) para automatizar o processo de deploy, testes e integração, garantindo lançamentos mais rápidos e confiáveis.
+
+### 6. **Automatizar o processamento dos dados**
+Atualmente temos que fazer o upload do arquivo para depois processar. Implementar o processamento logo após upload do arquivo deixa o processo automatizado para o usuário final.
