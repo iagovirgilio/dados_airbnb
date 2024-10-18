@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class CustomUser(AbstractUser):
@@ -34,3 +35,21 @@ class Stay(models.Model):
 
     def __str__(self):
         return f'{self.name} by {self.host_name}'
+
+
+class FileUpload(models.Model):
+    FILE_TYPES = (
+        ('csv', 'CSV'),
+        ('excel', 'Excel'),
+    )
+
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(default=timezone.now)
+    file_type = models.CharField(max_length=10, choices=FILE_TYPES)
+
+    def save(self, *args, **kwargs):
+        
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.file.name} - {self.uploaded_at.strftime('%Y-%m-%d %H:%M')}"

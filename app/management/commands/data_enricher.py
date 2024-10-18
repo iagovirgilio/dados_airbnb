@@ -1,19 +1,11 @@
 import os
 import sys
-# Configurar o caminho do projeto
-sys.path.append('/usr/src/app')
-# Definir a variável de ambiente para as configurações do Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'airbnb_project.settings')
-# Inicializar o Django
-import django
-django.setup()
-
 import asyncio
 import aiohttp
 import pandas as pd
 import logging
-from load_data import LoadData
-from data_server import DataSaver  # Certifique-se de que o caminho está correto
+from .load_data import LoadData
+from .data_server import DataSaver  # Certifique-se de que o caminho está correto
 
 
 class DataEnricher:
